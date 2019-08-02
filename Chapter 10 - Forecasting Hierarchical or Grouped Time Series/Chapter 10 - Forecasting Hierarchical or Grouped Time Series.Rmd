@@ -1,0 +1,41 @@
+---
+title: "Forecasting: Principles and Practice"
+subtitle: "Chapter 10: Forecasting Hierarchical or Grouped Time Series"
+author: "Darshan Patel"
+date: "8/1/2019"
+output:
+  html_document:
+    includes:
+      before_body: preamble-mathjax.tex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+### Question 1:
+Write out the $\bm{S}$ matrices for the Australian tourism hierarchy and the Australian prison grouped structure. Use the `smatrix` command to verify your answers.
+
+
+### Question 2: 
+Generate $8$-step-ahead bottom-up forecasts using ARIMA models for the `visnights` Australian domestic tourism data. Plot the coherent forecasts by level and comment on their nature. Are you satisfied with these forecasts?
+
+
+### Question 3:
+Model the aggregate series for Australian domestic tourism data `visnights` using an ARIMA model. Comment on the model. Generate and plot $8$-step-ahead forecasts from the ARIMA model and compare these with the bottom-up forecasts generated in question $2$ for the aggregate level.
+
+
+### Question 4:
+Generate $8$-step-ahead optimally reconciled coherent forecasts using ARIMA base forecasts for the `visnights` Australian domestic tourism data. Plot the coherent forecasts by level and comment on their nature. HOw and why are these different to the bottom-up forecasts generated in question $2$ above.
+
+
+### Question 5:
+Using the last two years of the `visnights` Australian domestic tourism data as a test set, generate bottom-up, top-down and optimally reconciled forecasts for this period and compare their accuracy.
+
+
+
+
+
+
+#### Source: Hyndman, R.J., & Athanasopoulos, G. (2018) Forecasting: principles and practice, 2nd edition, OTexts: Melbourne, Australia. OTexts.com/fpp2. Accessed on August 1 2019.
