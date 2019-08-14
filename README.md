@@ -1,1 +1,1 @@
-# TSA (Forecasting - Principles and Practice)
+# Time Series Analysis (Forecasting - Principles and Practice)
