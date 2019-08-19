@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage[letterpaper, portrait, margin=1in]{geometry}
-\usepackage{amsmath, amsfonts, amsthm, multicol, physics} 
+\usepackage{amsmath, amsfonts, amsthm, bm, physics} 
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -15,13 +15,12 @@
 \newcommand{\covOne}[1]{\text{Cov}\left[#1\right]}
 \newcommand{\cov}[2]{\text{Cov}\left[#1, ~#2\right]}
 
+\newcommand{\ar}[1]{$\mathbf{AR}(#1)$}
+\newcommand{\ma}[1]{$\mathbf{MA}(#1)$}
+\newcommand{\arma}[2]{$\mathbf{ARMA}(#1, #2)$}
+
 
 \begin{document}
-
-\theoremstyle{definition}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{definition}{Definition}[section]
-\newtheorem{example}{Example}[section]
 
 \title{Time Series Analysis and its Application \\ \Large An Outline of ``TSA and its Applications" \\ by Shumway and Stoffer}
 \author{Darshan Patel}
@@ -219,7 +218,62 @@ $$x_t - x_{t-1} = (\mu_t + y_t) - (\mu_{t-1} + y_{t-1}) = \beta_1 + y_t - y_{t-1
 
 \section{ARIMA Models}
 \subsection{Autoregressive Moving Average Models}
-
+\begin{itemize}
+\item Autoregressive models are based on the idea that the current value of the series, $x_t$, can be explained as a function of $p$ past values, $x_{t-1}, x_{t-2},\dots,x_{t-p}$, where $p$ determines the number of steps into the past needed to forecast the current value
+\item The extent to which it might be possible to forecast a real data series from its own past values can be assessed by looking at the autocorrelation function and the lagged scatterplot matrices 
+\item An autoregressive model of order $p$, abbreviated \ar{p}, is of the form
+$$ x_t = \phi_1x_{t-1} + \phi_2x_{t-2} + \dots + \phi_px_{t-p} + w_t $$ 
+where $x_t$ is stationary, $w_t \sim wn(0, \sigma^2_w)$, and $\phi_1,\phi_2,\dots,\phi_p$ are constants ($\phi_p \neq 0$)
+\item The mean of $x_t$ above is $0$; if the mean, $\mu$, of $x_t$ is not zero, replace $x_t$ by $x_t - \mu$ so that the equation becomes
+$$ x_t - \mu = \phi_1(x_{t-1} - \mu) + \phi_2(x_{t-2} - \mu) + \dots + \phi_p(x_{t-p} - \mu) + w_t $$ or 
+$$ x_t = \alpha + \phi_1x_{t-1} + \phi_2x_{t-2} + \dots + \phi_px_{t-p} + w_t $$ where $\alpha = \mu(1 - \phi_1 - \dots - \phi_p)$
+\item The backshift operator can be used to write the \ar{p} model as $$ (1 - \phi_1B - \phi_2B^2 - \dots - \phi_pB^p)x_t = w_t $$ or more concisely as $\phi(B)x_t = w_t$
+\item The autoregressive operator is defined to be $$ \phi(B) = 1 - \phi_1B - \phi_2B^2 - \dots - \phi_pB^p $$ 
+\item Given by $x_t = \phi x_{t-1} + w_t$, the first-order model \ar{1} can be created as follows by iterating backwards $k$ times 
+$$ \begin{aligned} x_t &= \phi x_{t-1} + w_t = \phi(\phi x_{t-2} + w_{t-1}) + w_t \\ &= \phi^2x_{t-2} + \phi w_{t-1} + w_t \\ &\vdots \\ &= \phi^k x_{t-k} + \sum_{j=0}^{k-1} \phi^iw_{t-j} \end{aligned} $$ 
+This method suggests that, by continuing to iterate backwards, and provided that $\abs{\phi} < 1$ and $\text{sup}_t \var{x_t} < \infty$, an \ar{1} model can be represented as
+$$ x_t = \sum_{j=0}^\infty \phi^jw_{t-j} $$ This is called the stationary solution of the model; in fact, by simple substitution, $$ \underbrace{\sum_{j=0}^\infty \phi^j w_{t-j}}_{x_t} = \phi\left( \underbrace{\sum_{k=0}^\infty \phi^kw_{t-1-k}}_{x_{t-1}}\right) + w_t $$
+\item The \ar{1} process is stationary with mean $$ \expe{x_t} = \sum_{j=0}^\infty \phi^j \expe{w_{t-k}} = 0 $$ and autocovariance function
+$$ \begin{aligned} \gamma(h) &= \cov{x_{t+h}}{x_t} = \expe{ \left( \sum_{j=0}^\infty \phi^jw_{t+h-j}\right)\left(\sum_{k=0}^\infty \phi^kw_{t-k}\right)} \\ &= \expe{(w_{t+h} + \dots + \phi^hw_t + \phi^{h+1}w_t{t-1} + \dots)(w_t + \phi w_{t-1} + \dots)} \\ &= \sigma^2_w\sum_{j=0}^\infty \phi^{h+j}\phi^j = \sigma^2_w\phi^h \sum_{j=0}^\infty \phi^{2j} \\ &= \frac{\sigma^2_w \phi^h}{1-\phi^2}, ~~ h \geq 0 \end{aligned} $$ 
+\item The autocovariance function only exhibits for $h \geq 0$ since $\gamma(h) = \gamma(-h)$
+\item The ACF of an \ar{1} is $$ \rho(h) = \frac{\gamma(h)}{\gamma(0)} = \phi^h, ~~ h \geq 0 $$ and $\rho(h)$ satisfies the recursion $$ \rho(h) = \phi \rho(h-1), ~~ h = 1,2,\dots $$ 
+\item A stationary \ar{1} process with $\abs{\phi} > 1$ is called explosive because the values of the time series quickly become large in magnitude since $\abs{\phi}^j$ increases without bound as $j\to\infty$ and so $\sum_{j=0}^{k-1} \phi^jw_{t-j}$ will not converge (in mean square) as $k \to\infty$ and so a stationary solution of the model is not possible
+\item However, if the argument was modified by iterating forward $k$ steps, $x_{t+1} = \phi x_t + w_{t+1}$, then $$ \begin{aligned} x_t &= \phi^{-1}x_{t+1} - \phi^{-1}w_{t+1} = \phi^{-1}(\phi^{-1}x_{t+2} - \phi^{-1} w_{t+2}) - \phi^{-1}w_{t+1} \\ &\vdots \\ &= \phi^{-k}x_{t+k} - \sum_{j=1}^{k-1}\phi^{-j}w_{t+j} \end{aligned} $$ 
+Because $\abs{\phi}^{-1} < 1$, this result suggests that the stationary future dependent \ar{1} model solution is $$ x_t = -\sum_{j=1}^\infty \phi^{-j}w_{t+j} $$ 
+This model is however useless because it requires knowing the future to be able to predict the future
+\item When a process does not depend on the future, such as the \ar{1} when $\abs{\phi} < 1$, then the process is said to be causal
+\item In the explosive case, the process is stationary, but it is also future dependent and so not causal
+\item Excluding explosive models from consideration is not a problem because the models have causal counterparts; if $$ x_t = \phi x_{t-1} + w_t, \text{ with } \abs{\phi} > 1 $$ 
+and $w_t \sim$ iid N($0, \sigma^2_w$), then by using the above solution, $\{x_t\}$ is a non-causal stationary Gaussian process with $\expe{x_t} = 0$ and 
+$$ \begin{aligned} \gamma_x(h) &= \cov{x_{t+h}}{x_t} = \cov{-\sum_{j=1}^\infty \phi^{-j} w_{t+h+j}}{-\sum_{k=1}^\infty \phi^{-k}w_{t+k}} \\ &= \frac{\sigma^2_w \phi^{-2} \phi^{-h}}{(1-\phi^{-2})} \end{aligned} $$ Thus, the causa process defined by $y_t = \phi^{-1}y_{t-1} + v_t$ where $v_t \sim$ N($0, \sigma^2_w\phi^{-2}$) is stochastically equal to the $x_t$ process (i.e., all finite distributions of the processes are the same)
+\item The techniques of iterating backward to get an idea of the stationary solution of AR models works well when $p=1$, but not for larger orders; a general technique is that of matching coefficients
+\item Taking the \ar{1} model in operator form, $\phi(B)x_t = w_t$, where $\phi(B) = 1-\phi B$ and $\abs{\phi} < 1$, and writing the model as $$ x_t = \sum_{j=0}^\infty \psi_jw_{t-j} = \psi(B)w_t $$ where $\psi(B) = \sum_{j=0}^\infty \psi_jB^j$ and $\psi_j = \phi^j$; if the last part wasn't known; then the following can be obtained via substitution 
+$$ \phi(B)\psi(B)w_T = w_t $$ The coefficients of $B$ on the LHS must be equal to those on the RHS, and so $$ (1 - \phi B)(1 + \psi_1B + \psi_2B^2 + \dots + \psi_jB^j) = 1 $$ It is clear that the coefficient of $B^j$ on the left must be zero; the coefficient of $B$ on the left is $(\psi_1 - \phi)$ and equating this to zero yields $\psi_1 = \phi$; continuing, the coefficient of $B^2$ is $(\psi_2 - \psi_1\phi)$ and so $\psi_2 = \phi^2$; in general, $$ \psi_j = \psi_{j-1}\phi $$ where $\psi_0 = 1$, which leads to the solution $\psi_j = \phi^j$
+\item As an alternative to the autoregressive representation in which the $x_t$ on the LHS of the equation are assumed to be combined linearly, the moving average model of order $q$ assumes the white noise $w_t$ on the RHS of the defining equation are combined linearly to form the observed data
+\item The moving average model of order $q$, or \ma{q}, is defined to be $$ x_t = w_t + \theta_1w_{t-1} + \theta_2w_{t-2} + \dots + \theta_qw_{t-q} $$ where $w_t \sim wn(0, \sigma^2_w)$ and $\theta_1,\dots,\theta_q$ ($\theta_q \neq 0$) are parameters 
+\item The system is the same as the infinite moving average defined as the linear process $x_t = \sum_{j=0}^\infty \psi_jw_{t-j} = \psi(B)w_t$, where $\psi_0 = 0$, $\psi_j = \theta_j$, for $j=1,\dots,q$ and $\psi_j = 0$ for other values
+\item The moving average operator is $$ \theta(B) = 1 + \theta_1B + \theta_2B^2 + \dots + \theta_qB^q $$ Unlike the autoregressive process, the moving average process is stationary for any values of the parameters $\theta_1,\dots, \theta_q$
+\item The \ma{1} model is defined to be $x_t = w_t + \theta w_{t-1}$ where $\expe{x_t} = 0$, $$\gamma(h) = \begin{cases} (1+\theta^2)\sigma^2_w &\text{ if } h = 0 \\ \theta\sigma^2_w &\text{ if } h = 0 \\ 0 &\text{ if } h > 1 \end{cases} $$ and the ACF is $$ \rho(h) = \begin{cases} \frac{\theta}{(1 + \theta^2)} &\text{ if } h = 1 \\ 0 &\text{ if } h > 0 \end{cases} $$ Note that $\abs{\rho(1)} \leq \frac{1}{2}$ for all values of $\theta$; also, $x_t$ is correlated with $x_{t-1}$,, but not with $x_{t-2}, x_{t-3},\dots$; this contrasts with the case of the \ar{1} model in which the correlation between $x_t$ and $x_{t-k}$ is never zero
+\item For an \ma{1} model, $\rho(h)$ is the same for $\theta$ and $\frac{1}{\theta}$
+\item Two \ma{1} processes, $x_t = w_t + \frac{1}{\theta}w_{t-1}$, $w_t \sim $ iid N($0, \theta^2_w$), and $y_t = v_t + \theta v_{t-1}$, $v_t \sim $ iid N($0, \sigma^2_v$), are the same because of normality
+\item The time series $x_t$ or $y_t$ can only be observed and not the noise, $w_t$ or $v_t$, and so the models cannot be distinguished
+\item By mimicking the criterion of causality for AR models, the model with an infinite AR representation will be chose; such a process is called an invertible process
+\item To discover which model is the invertible model, reverse the roles of $x_t$ and $w_t$ and write the \ma{1} model as $w_t = -\theta w_{t-1} + x_t$; if $\abs{\theta} < 1$, then $w_t = \sum_{j=0}^\infty (-\theta)^j x_{t-j}$, which is the desired infinite AR representation of the model
+\item As in the AR case, the polynomial, $\theta(z)$, corresponding to the moving average operators, $\theta(B)$, will be useful in exploring general properties of MA processes
+\item The \ma{1} model can be written as $x_t = \theta(B)w_t$, where $\theta(B) = 1 + \theta B$; if $\abs{\theta} < 1$, then the model can be written as $\pi(B)x_t = w_t$, where $\pi(B) = \theta^{-1}(B)$; letting $\theta(z) = 1 + \theta z$, for $\abs{z} \leq 1$, then $\pi(z) = \theta^{-1}(z) = \frac{1}{(1 + \theta z)} = \sum_{j=0}^\infty (-\theta)^jz^j$ and so $\pi(B) = \sum_{i=0}^\infty (-\theta)^jB^j$
+\item A time series $\{x_t; t = 0, \pm 1, \pm 2, \dots\}$,  is \arma{p}{q} if it is stationary and $$ x_t = \phi+1x_{t-1} + \dots + \phi_px_{t-p} + w_t + \theta_1w_{t-1} + \dots + \theta_qw_{t-q} $$ with $\phi_q \neq 0$, $\theta_q \neq 0$ and $\sigma^2_w > 0$; the parameters $p$ and $q$ are called the autoregressive and the moving average orders, respectively
+\item If $x_t$ has a nonzero mean $\mu$, set $\alpha = \mu(1 - \phi_1 - \dots - \phi_p)$ and write the \arma{p}{q} model as $$ x_t = \alpha + \phi_1x_{t-1} + \dots + \phi_px_{t-p} + w_t + \theta_1w_{t-1} + \dots + \theta_qw_{t-q} $$ where $w_t \sim wn(0, \sigma^2_w)$
+\item When $q = 0$, the model is called an autoregressive model of order $p$, \ar{p}, and when $p=0$, the model is called a moving average model of order $q$, \ma{q}
+\item The \arma{p}{q} model can be written in concise form as $$ \phi(B)x_t = \theta(B)w_t $$ The concise form of the model points to a potential problem in that the model can be unnecessarily complicated by multiplying both sides by another operator as follows, without changing the dynamics
+$$ \eta(B)\phi(B)x_t = \eta(B)\theta(B)w_t $$ 
+\item Using the general definition of \arma{p}{q} models, the following problems show up (1) parameter redundant models, (2) stationary AR models that depend on the future, and (3) MA models that are not unique
+\item The AR and MA polynomials are defined as $$ \phi(z) = 1 - \phi_1z - \dots - \phi_pz^p, ~~ \phi_p \neq 0 $$ and $$ \theta(z) = 1 + \theta_1z + \dots + \theta_qz^q, ~~ \theta_q \neq 0 $$ respectively, where $z$ is a complex number
+\item To address the problem of parameter redundant models, an \arma{p}{q} model will be referred to mean that it is in its simplest form; it requires that $\phi(z)$ and $\theta(z)$ have no common factors
+\item An \arma{p}{q} model is said to be causal if the time series $\{x_t; t = 0, \pm 1, \pm 2, \dots\}$ can be written as a one-sided linear process: $$ x_t = \sum_{j=0}^\infty \psi_jw_{t-j} = \psi(B)w_t $$ where $\psi(B) = \sum_{i=0}^\infty \psi_jB^j$ and $\sum_{j=0}^\infty \abs{\psi_j} < \infty$ and $\psi_0 = 1$
+\item An \arma{p}{q} model is causal if and only if $\phi(z) \neq 0$ and $\abs{z} \leq 1$; the coefficients of the linear process given in $x_t = \psi(B)w_t$ can be determined by solving $$ \psi(z) = \sum_{j=0}^\infty \psi_jz^j = \frac{\theta(z)}{\phi(z)}, ~~ \abs{z} \leq 1 $$ This is to say, an ARMA process is causal only when the roots of $\phi(z)$ lie outside the unit circle; that is, $\phi(z) = 0$ only when $\abs{z} > 1$; this solves the problem of stationary AR models depending on the future
+\item An \arma{p}{q} model is said to be invertible if the time series $\{x_t: t = 0, \pm 1, \pm 2, \dots\}$ can be written as $$ \pi(B)x_t = \sum_{j=0}^\infty \pi_jx_{t-j} = w_t $$ where $\pi(B) = \sum_{j=0}^\infty \pi_jB^j$ and $\sum_{j=0}^\infty \abs{\pi_j} < \infty$ and by setting $\pi_0 = 1$
+\item An \arma{p}{q} model is invertible if and only if $\theta(z) \neq 0$ for $\abs{z} \leq 1$; the coefficients $\pi_j$ of $\pi(B)$ given above can be determined by solving $$ \pi(z) = \sum_{j=0}^\infty \pi_jz^j = \frac{\phi(z)}{\theta(z)}, ~~ \abs{z} \leq 1 $$ That is to say, an ARMA process is invertible only when the roots of $\theta(z)$ lie outside the unit circle; that is, $\theta(z) = 0$ only when $\abs{z} > 1$; this solves the problem of uniqueness by choosing the model that allows an infinite autoregressive representation
+\end{itemize}
 \subsection{Difference Equations}
 
 \subsection{Autocorrelation and Partial Autocorrelation}
