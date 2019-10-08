@@ -1,0 +1,8 @@
+name: "Time Series Analysis"
+navbar:
+  title: "My Website"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Chaoter 1 - Getting Started"
+      href: Chapter 1 - Getting Started.html
