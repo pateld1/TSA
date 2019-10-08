@@ -6,6 +6,6 @@ navbar:
     - text: "Home"
       href: index.html
     - text: "Getting Started"
-      href: about.html
-    - text: "Time Series Graphics"
       href: ch01.html
+    - text: "Time Series Graphics"
+      href: ch02.html
