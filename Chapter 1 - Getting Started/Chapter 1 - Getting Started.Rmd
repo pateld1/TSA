@@ -5,6 +5,11 @@ author: "Darshan Patel"
 date: "8/1/2019"
 title: 'Forecasting: Principles and Practice'
 subtitle: 'Chapter 1: Getting Started'
+knit: (function(input_file, encoding) {
+  out_dir <- '';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 ---
 
 ```{r setup, include=FALSE}
