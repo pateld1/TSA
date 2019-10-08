@@ -5,7 +5,7 @@ This is a website. Add more later.
 How to add html page
 
 1. Getting Started 
-[link](https://raw.githubusercontent.com/pateld1/TimeSeriesAnalysis/master/Chapter%201%20-%20Getting%20Started/Chapter-1---Getting-Started.html)
+[link](https://raw.githubusercontent.com/pateld1/TimeSeriesAnalysis/master/Chapter%201%20-%20Getting%20Started/Chapter-1%20-%20Getting-Started.md)
 1. Time Series Graphics
 
 
