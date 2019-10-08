@@ -10,9 +10,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Darshan Patel" />
 
 
-<title>about.utf8.md</title>
+<title>Forecasting: Principles and Practice</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -275,7 +276,10 @@ $(document).ready(function () {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="about.html">About Me</a>
+  <a href="about.html">Getting Started</a>
+</li>
+<li>
+  <a href="ch01.html">Time Series Graphics</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -289,18 +293,38 @@ $(document).ready(function () {
 
 
 
+<h1 class="title toc-ignore">Forecasting: Principles and Practice</h1>
+<h3 class="subtitle">Chapter 1: Getting Started</h3>
+<h4 class="author">Darshan Patel</h4>
+<h4 class="date">8/1/2019</h4>
 
 </div>
 
 
-<table>
-<tbody>
-<tr class="odd">
-<td>title: “About Me”</td>
-</tr>
-</tbody>
-</table>
-<p>Yada yada yada.</p>
+<div id="question-1" class="section level3">
+<h3>Question 1:</h3>
+<p>For cases <span class="math inline">\(3\)</span> and <span class="math inline">\(4\)</span> in Section 1.5, list the possible predictor variables that might be helpful, assuming that the relevant data are available.</p>
+<p>Case <span class="math inline">\(3\)</span>: A large car fleet company asked us to help them forecast vehicle re-sale values. They purchase new vehicles, lease them out for three years, and then sell them. Better forecasts of vehicle sales values would mean better control of profits; understanding what affects resale values may allow leasing and sales policies to be developed in order to maximise profits.</p>
+<p>At the time, the resale values were being forecast by a group of specialists. Unfortunately, they saw any statistical model as a threat to their jobs, and were uncooperative in providing information. Nevertheless, the company provided a large amount of data on previous vehicles and their eventual resale values.</p>
+<p>Predictor variables that might be helpful include: quality of car when returned from lease, car features, difference in year of model from present year, etc.</p>
+<p>Case <span class="math inline">\(4\)</span>: In this project, we needed to develop a model for forecasting weekly air passenger traffic on major domestic routes for one of Australia’s leading airlines. The company required forecasts of passenger numbers for each major domestic route and for each class of passenger (economy class, business class and first class). The company provided weekly traffic data from the previous six years.</p>
+<p>Air passenger numbers are affected by school holidays, major sporting events, advertising campaigns, competition behaviour, etc. School holidays often do not coincide in different Australian cities, and sporting events sometimes move from one city to another. During the period of the historical data, there was a major pilots’ strike during which there was no traffic for several months. A new cut-price airline also launched and folded. Towards the end of the historical data, the airline had trialled a redistribution of some economy class seats to business class, and some business class seats to first class. After several months, however, the seat classifications reverted to the original distribution.</p>
+<p>Predictor variables that might be helpful include: type of aircraft, amenities offered on flights, time duration of flights, number of different flights going out on same week (or average per day), etc.</p>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="question-2" class="section level3">
+<h3>Question 2:</h3>
+<p>For case <span class="math inline">\(3\)</span> in Section 1.5, describe the five steps of forecasting in the context of this project.</p>
+<p>See case <span class="math inline">\(3\)</span> above. The five steps of forecasting are listed below:</p>
+<p>Step 1: Problem Definition: Predict future resale values in order to maximize profits.</p>
+<p>Step 2: Gathering Information: Gather the vehicle resale price data from the car fleet company as well as any quantitative data they have on cars being sold.</p>
+<p>Step 3: Preliminary (Exploratory) Analysis: Plot all data and look for patterns. Do resale prices change through the year? How do different car features affect resale values? Are the resale prices distributed normally or are there outliers?</p>
+<p>Step 4: Choosing and Fitting Models: Fit a forecasting model on the resale values and several variables.</p>
+<p>Step 5: Using and Evaluating a Forecasting Model: Evaluate the model when new resale values are avaiable. For immediate judgments, assess the accuracy in the forecast using other methods (to be known later).</p>
+<div id="source-hyndman-r.j.-athanasopoulos-g.-2018-forecasting-principles-and-practice-2nd-edition-otexts-melbourne-australia.-otexts.comfpp2.-accessed-on-august-1-2019." class="section level4">
+<h4>Source: Hyndman, R.J., &amp; Athanasopoulos, G. (2018) Forecasting: principles and practice, 2nd edition, OTexts: Melbourne, Australia. OTexts.com/fpp2. Accessed on August 1 2019.</h4>
+</div>
+</div>
 
 
 

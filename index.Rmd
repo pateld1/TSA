@@ -2,5 +2,11 @@
 title: "Darshan's website for Time Series Analysis"
 ---
 
+Table of Content:
 
-Hello world.
+1. Getting Started 
+
+2. Time Series Graphics
+
+
+To be continued...

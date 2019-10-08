@@ -5,5 +5,7 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "About Me"
+    - text: "Getting Started"
       href: about.html
+    - text: "Time Series Graphics"
+      href: ch01.html
