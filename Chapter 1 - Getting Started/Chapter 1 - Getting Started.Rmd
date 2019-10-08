@@ -1,7 +1,11 @@
 ---
+title: 'Forecasting: Principles and Practice'
 author: "Darshan Patel"
 date: "8/1/2019"
-title: 'Forecasting: Principles and Practice'
+output:
+  md_document:
+  html_document:
+    df_print: paged
 subtitle: 'Chapter 1: Getting Started'
 ---
 
