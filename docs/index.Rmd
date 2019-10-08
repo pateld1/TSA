@@ -1,5 +1,0 @@
----
-title: "R Notebook"
----
-
-This is a website made from a Rmd document. Add more later. 
