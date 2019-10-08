@@ -1,8 +1,6 @@
 ---
 output:
-  html_document:
-    df_print: paged
-  output: rmarkdown::github_document
+  html_document
 author: "Darshan Patel"
 date: "8/1/2019"
 title: 'Forecasting: Principles and Practice'
